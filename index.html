@@ -31,10 +31,37 @@
         -webkit-text-size-adjust: 100%; 
     }
 
-    /* --- Desktop Layout (Default) --- */
+    /* --- Watermark Style (ลายน้ำ) --- */
+    .watermark-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* คลิาทะลุได้ ไม่บังปุ่ม */
+        z-index: 9999; /* อยู่บนสุด */
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        opacity: 0.04; /* ความจาง (ปรับเลขนี้ถ้าอยากให้เข้มขึ้น/จางลง) */
+        justify-content: center;
+        align-content: center;
+    }
+
+    .watermark-text {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #000;
+        transform: rotate(-45deg);
+        margin: 50px;
+        white-space: nowrap;
+        user-select: none;
+    }
+
+    /* --- Layout --- */
     body {
         display: flex;
-        flex-direction: row; /* เรียงแนวนอน: ซ้าย(เมนู) -> ขวา(เนื้อหา) */
+        flex-direction: row;
     }
 
     /* Sidebar Styling */
@@ -46,7 +73,7 @@
         flex-direction: column;
         flex-shrink: 0;
         z-index: 100;
-        height: 100vh; /* สูงเต็มจอ */
+        height: 100vh;
         overflow-y: auto;
     }
 
@@ -88,8 +115,10 @@
     .main-content {
         flex-grow: 1;
         padding: 30px;
-        overflow-y: auto; /* เนื้อหาเลื่อนได้อิสระ */
+        overflow-y: auto;
         height: 100vh;
+        position: relative; /* เพื่อให้ลายน้ำอยู่ภายในขอบเขตถ้าต้องการ */
+        z-index: 1; /* เนื้อหาอยู่เหนือพื้นหลัง */
     }
 
     .container {
@@ -102,6 +131,8 @@
         display: none;
         animation: fadeIn 0.3s ease-in-out;
         margin-bottom: 50px;
+        position: relative;
+        z-index: 2; /* ตารางอยู่เหนือลายน้ำ */
     }
     .container.active { display: block; }
 
@@ -129,13 +160,15 @@
     .detail-table { min-width: 100%; }
     .detail-table th, .detail-table td { text-align: left; vertical-align: top; }
     .detail-head { width: 20%; background-color: #f1f1f1; color: #333; font-weight: bold; }
-    .copy-hint { font-size: 0.8rem; color: #666; background: #f8f9fa; padding: 8px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px; }
     .action-bar { display: none; }
+    
+    /* ลบ copy-hint ออกไปแล้ว */
+    .copy-hint { display: none; }
 
     /* ================= MOBILE RESPONSIVE ================= */
     @media screen and (max-width: 900px) {
         body { 
-            flex-direction: column; /* มือถือ: เรียงแนวตั้ง (บนลงล่าง) */
+            flex-direction: column; 
             height: auto; 
             overflow-x: hidden;
         }
@@ -200,11 +233,22 @@
         .detail-table tbody, .detail-table tr, .detail-table td { display: block; width: 100%; }
         .detail-head { width: 100%; background-color: #e9ecef; padding: 10px; border-bottom: none; }
         .detail-content { padding: 10px; border-top: none; margin-bottom: 15px; }
-        .copy-hint { display: none; }
+        
+        /* ปรับลายน้ำในมือถือให้ถี่ขึ้นหน่อย */
+        .watermark-text { font-size: 1.5rem; margin: 30px; }
     }
 </style>
 </head>
 <body>
+
+    <div class="watermark-container">
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+        <div class="watermark-text">101 Ways To China</div><div class="watermark-text">101 Ways To China</div>
+    </div>
 
     <div class="sidebar">
         <div class="sidebar-header">
@@ -226,7 +270,6 @@
     <div class="main-content">
         <div id="tab1" class="container active">
             <h1>3 วัน: สี่ดรุณี + ต๋ากู่</h1>
-            <p class="copy-hint">💡 บนคอมฯ ลากคลุมตารางแล้ว Ctrl+C ไปวาง Excel ได้เลย</p>
             <div class="table-wrapper">
                 <table>
                     <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>

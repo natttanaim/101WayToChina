@@ -2,10 +2,13 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Sichuan Travel Price List</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
+    /* Reset & Standardize */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
     :root {
         --primary-color: #1a252f;
         --accent-color: #3498db;
@@ -16,15 +19,22 @@
         --text-color: #333;
     }
 
-    body {
-        font-family: 'Sarabun', sans-serif;
+    html, body {
+        width: 100%;
+        height: 100%;
         margin: 0;
         padding: 0;
+        overflow-x: hidden; /* ป้องกันหน้าจอเลื่อนซ้ายขวา */
+        font-family: 'Sarabun', sans-serif;
         background-color: var(--bg-light);
-        display: flex;
-        height: 100vh;
-        overflow: hidden;
         color: var(--text-color);
+        /* สำคัญ: แก้ตัวหนังสือขยายเองใน Messenger */
+        -webkit-text-size-adjust: 100%; 
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
     }
 
     /* Sidebar Navigation (Desktop) */
@@ -35,22 +45,29 @@
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         z-index: 100;
+        height: 100vh; /* Full height on desktop */
     }
 
     .sidebar-header {
         padding: 20px;
         background-color: rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center; /* จัดให้อยู่กึ่งกลางแนวตั้ง */
     }
 
-    .sidebar-header h2 { margin: 0; font-size: 1.1rem; }
-    .sidebar-header p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.7; }
-
-    .menu-container {
-        padding: 10px 0;
-        overflow-y: auto;
+    .sidebar-logo {
+        width: 50px; /* ขนาดโลโก้ */
+        height: 50px;
+        border-radius: 50%; /* ทำให้เป็นวงกลม */
+        margin-right: 15px; /* ระยะห่างจากข้อความ */
+        border: 2px solid white; /* เส้นขอบสีขาว */
     }
+
+    .sidebar-title h2 { margin: 0; font-size: 1.1rem; }
+    .sidebar-title p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.7; }
+
+    .menu-container { padding: 10px 0; overflow-y: auto; }
 
     .menu-btn {
         padding: 15px 20px;
@@ -59,20 +76,15 @@
         transition: all 0.2s;
         font-size: 0.95rem;
     }
-
     .menu-btn:hover { background-color: rgba(255,255,255,0.05); }
-    .menu-btn.active {
-        background-color: rgba(255,255,255,0.1);
-        border-left-color: var(--accent-color);
-        font-weight: 600;
-    }
+    .menu-btn.active { background-color: rgba(255,255,255,0.1); border-left-color: var(--accent-color); font-weight: 600; }
 
     /* Main Content */
     .main-content {
         flex-grow: 1;
         padding: 30px;
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        height: 100vh;
     }
 
     .container {
@@ -86,122 +98,82 @@
         animation: fadeIn 0.3s ease-in-out;
         margin-bottom: 50px;
     }
-
     .container.active { display: block; }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    h1 { 
-        color: var(--primary-color); 
-        border-bottom: 2px solid var(--accent-color); 
-        padding-bottom: 10px; 
-        margin-top: 0;
-        font-size: 1.5rem;
-    }
-    
+    h1 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; font-size: 1.5rem; }
     h3 { color: var(--primary-color); margin-top: 25px; font-size: 1.1rem; }
 
     /* Tables */
     .table-wrapper {
         width: 100%;
-        overflow-x: auto; /* Enable horizontal scroll */
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         margin-bottom: 20px;
         border: 1px solid #eee;
         border-radius: 8px;
     }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 800px; /* Force table to have width so it scrolls */
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px 8px;
-        text-align: center;
-        font-size: 0.9rem;
-    }
-
-    th {
-        background-color: var(--table-head-bg);
-        color: var(--table-head-text);
-        white-space: nowrap;
-        font-weight: 600;
-    }
-
-    tr:nth-child(even) { background-color: var(--table-row-even); }
     
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    th, td { border: 1px solid #ddd; padding: 12px 8px; text-align: center; font-size: 0.9rem; }
+    th { background-color: var(--table-head-bg); color: var(--table-head-text); white-space: nowrap; font-weight: 600; }
+    tr:nth-child(even) { background-color: var(--table-row-even); }
     .price-group { background-color: #fff3cd; font-weight: bold; color: #856404; }
     .header-row td { background-color: #d1ecf1; font-weight: bold; color: #0c5460; text-align: left; padding-left: 15px; }
 
     /* Detail Table */
-    .detail-table { min-width: 100%; } /* Detail table fits width */
+    .detail-table { min-width: 100%; }
     .detail-table th, .detail-table td { text-align: left; vertical-align: top; }
     .detail-head { width: 20%; background-color: #f1f1f1; color: #333; font-weight: bold; }
+    .copy-hint { font-size: 0.8rem; color: #666; background: #f8f9fa; padding: 8px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px; }
+    
+    /* เอาปุ่ม Print ออก */
+    .action-bar { display: none; }
 
-    .copy-hint {
-        font-size: 0.8rem;
-        color: #666;
-        background: #f8f9fa;
-        padding: 8px;
-        border-radius: 4px;
-        border-left: 3px solid #ffc107;
-        margin-bottom: 15px;
-    }
-
-    /* Print Button */
-    .action-bar { text-align: right; margin-bottom: 15px; }
-    .btn-print {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-family: 'Sarabun', sans-serif;
-    }
-
-    /* ================= MOBILE RESPONSIVE ================= */
-    @media screen and (max-width: 768px) {
-        body {
-            flex-direction: column; /* Stack vertically */
-            height: auto;
-            overflow-y: auto;
+    /* ================= MOBILE RESPONSIVE FIXES ================= */
+    @media screen and (max-width: 900px) {
+        body { 
+            flex-direction: column; 
+            height: auto; 
+            overflow-x: hidden;
         }
 
-        /* Mobile Header & Menu */
+        /* Fixed Header */
         .sidebar {
             width: 100%;
             height: auto;
             position: sticky;
             top: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding-top: 0;
         }
 
         .sidebar-header {
             padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: flex-start; /* ชิดซ้าย */
         }
-        .sidebar-header h2 { font-size: 1rem; }
-        .sidebar-header p { display: none; } /* Hide subtitle on mobile */
+
+        .sidebar-logo {
+            width: 40px; /* ลดขนาดโลโก้บนมือถือ */
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .sidebar-title h2 { font-size: 1rem; }
+        .sidebar-title p { display: none; }
 
         .menu-container {
             display: flex;
             flex-direction: row;
-            overflow-x: auto; /* Scroll horizontally */
+            overflow-x: auto;
             padding: 10px;
             background: #2c3e50;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
         }
+        .menu-container::-webkit-scrollbar { display: none; /* Hide scrollbar Chrome */ }
 
         .menu-btn {
             padding: 8px 15px;
@@ -211,40 +183,31 @@
             border-left: none;
             color: #ddd;
             font-size: 0.85rem;
+            flex-shrink: 0; /* ป้องกันปุ่มหด */
         }
 
-        .menu-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-left: none;
+        .menu-btn.active { background: var(--accent-color); color: white; border-left: none; }
+
+        /* Main Content Adjustments */
+        .main-content { 
+            padding: 15px 10px; 
+            height: auto; 
+            overflow: visible; /* ให้ scroll ที่ body แทน */
         }
-
-        /* Mobile Content */
-        .main-content { padding: 15px 10px; }
-        .container { padding: 15px; margin-bottom: 20px; }
-
+        
+        .container { padding: 15px; margin-bottom: 20px; width: 100%; }
         h1 { font-size: 1.2rem; }
         
-        /* Mobile Tables */
+        /* Table Fixes for Mobile */
         th, td { padding: 8px 4px; font-size: 0.8rem; }
-        
-        /* Adjust Detail Table for Mobile */
-        .detail-table { display: block; }
-        .detail-table tbody, .detail-table tr, .detail-table td { display: block; width: 100%; box-sizing: border-box; }
-        .detail-head { 
-            width: 100%; 
-            background-color: #e9ecef; 
-            padding: 10px;
-            border-bottom: none;
-        }
-        .detail-content {
-            padding: 10px;
-            border-top: none;
-            margin-bottom: 15px;
-        }
+        .table-wrapper { width: 100%; max-width: 100vw; } /* บังคับไม่ให้เกินจอ */
 
-        .btn-print { display: none; } /* Hide print button on mobile */
-        .copy-hint { display: none; } /* Hide copy hint on mobile */
+        .detail-table { display: block; }
+        .detail-table tbody, .detail-table tr, .detail-table td { display: block; width: 100%; }
+        .detail-head { width: 100%; background-color: #e9ecef; padding: 10px; border-bottom: none; }
+        .detail-content { padding: 10px; border-top: none; margin-bottom: 15px; }
+
+        .copy-hint { display: none; }
     }
 </style>
 </head>
@@ -252,8 +215,11 @@
 
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2>China Price List 🇨🇳</h2>
-            <p>Updated: Feb 2026</p>
+            <img src="logo-101.png" alt="101 Ways To China Logo" class="sidebar-logo">
+            <div class="sidebar-title">
+                <h2>China Price List 🇨🇳</h2>
+                <p>Updated: Feb 2026</p>
+            </div>
         </div>
         <div class="menu-container">
             <div class="menu-btn active" onclick="openTab('tab1')">3วัน สี่ดรุณี+ต๋ากู่</div>
@@ -265,53 +231,31 @@
     </div>
 
     <div class="main-content">
-        
         <div id="tab1" class="container active">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print PDF</button></div>
             <h1>3 วัน: สี่ดรุณี + ต๋ากู่</h1>
             <p class="copy-hint">💡 บนคอมฯ ลากคลุมตารางแล้ว Ctrl+C ไปวาง Excel ได้เลย</p>
-            
             <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>
                     <tbody>
                         <tr class="header-row"><td>ผู้ใหญ่</td><td>26 ก.พ. - 29 พ.ค.</td><td>2590</td><td>2180</td><td>1980</td><td>1850</td><td>1820</td><td>1750</td><td>1700</td></tr>
                         <tr><td>เด็ก (0-6)</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
                         <tr><td>เด็ก (7-18)</td><td></td><td>2430</td><td>2020</td><td>1820</td><td>1690</td><td>1660</td><td>1590</td><td>1540</td></tr>
                         <tr><td>สูงอายุ 60+</td><td></td><td>2390</td><td>1980</td><td>1790</td><td>1650</td><td>1620</td><td>1550</td><td>1500</td></tr>
                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>270</td><td>270</td><td>270</td><td>270</td><td>270</td><td>270</td><td>270</td></tr>
-                        <tr class="header-row"><td>ผู้ใหญ่</td><td>6 พ.ค. - 20 มิ.ย.</td><td>2650</td><td>2240</td><td>2040</td><td>1910</td><td>1880</td><td>1810</td><td>1760</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>6 พ.ค. - 20 มิ.ย.</td><td>2650</td><td>2240</td><td>2040</td><td>1910</td><td>1880</td><td>1810</td><td>1760</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>280</td><td>280</td><td>280</td><td>280</td><td>280</td><td>280</td><td>280</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>21 มิ.ย. - 29 ส.ค.</td><td>2990</td><td>2520</td><td>2320</td><td>2190</td><td>2150</td><td>2090</td><td>2030</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>1 ก.ย. - 28 ก.ย.</td><td>2790</td><td>2350</td><td>2150</td><td>2020</td><td>1990</td><td>1910</td><td>1860</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td></tr>
-                         <tr class="header-row"><td>ผู้ใหญ่</td><td>8 ต.ค. - 10 พ.ย.</td><td>2970</td><td>2490</td><td>2300</td><td>2170</td><td>2120</td><td>2050</td><td>1990</td></tr>
-                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td></tr>
-                         <tr class="header-row"><td>ผู้ใหญ่</td><td>11 พ.ย. - 13 ก.พ.</td><td>2710</td><td>2330</td><td>2120</td><td>1990</td><td>1920</td><td>1890</td><td>1850</td></tr>
-                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td></tr>
                     </tbody>
                 </table>
             </div>
-
-            <h3>รายละเอียดโปรแกรม</h3>
+            <h3>รายละเอียด</h3>
             <table class="detail-table">
-                <tr>
-                    <td class="detail-head">สังเขปการเดินทาง</td>
-                    <td class="detail-content">
-                        <b>Day 1:</b> เฉิงตู - ภูเขาปาหลาง - อุทยานภูเขาสี่ดรุณี (ซวงเฉียวโกว)<br>
-                        <b>Day 2:</b> เที่ยวชมธารน้ำแข็งต๋ากู่ (Dagu Glacier)<br>
-                        <b>Day 3:</b> เก็บตกต๋ากู่ - ผ่านตูเจียงเอี้ยน - กลับเฉิงตู
-                    </td>
-                </tr>
-                <tr>
-                    <td class="detail-head">ค่าบริการรวม</td>
-                    <td class="detail-content">รถนำเที่ยว, อาหารตามระบุ, ที่พัก, ประกันภัย, ตั๋วเข้าชมและรถอุทยาน (ต๋ากู่+สี่ดรุณี)</td>
-                </tr>
+                <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - สี่ดรุณี | Day 2: ต๋ากู่ | Day 3: ตูเจียงเอี้ยน - เฉิงตู</td></tr>
+                <tr><td class="detail-head">รวม</td><td class="detail-content">รถส่วนตัว, อาหาร, ที่พัก, ประกันภัย, ตั๋ว+รถ (ต๋ากู่+สี่ดรุณี)</td></tr>
             </table>
         </div>
 
@@ -319,11 +263,7 @@
             <h1>2 วัน: สี่ดรุณี + ปี้เผิงโกว</h1>
             <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>
                     <tbody>
                         <tr class="header-row"><td>ผู้ใหญ่</td><td>26 ก.พ. - 30 พ.ค.</td><td>1500</td><td>1240</td><td>1120</td><td>1020</td><td>1000</td><td>955</td><td>925</td></tr>
                         <tr><td>เด็ก (0-6)</td><td></td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td></tr>
@@ -340,7 +280,7 @@
                 </table>
             </div>
             <h3>รายละเอียด</h3>
-            <table class="detail-table">
+             <table class="detail-table">
                 <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - สี่ดรุณี | Day 2: ปี้เผิงโกว - เฉิงตู</td></tr>
                 <tr><td class="detail-head">รวม</td><td class="detail-content">รถส่วนตัว, โรงแรม 1 คืน, ตั๋ว+รถสี่ดรุณี, ตั๋ว+รถบัสปี้เผิงโกว</td></tr>
             </table>
@@ -350,11 +290,7 @@
             <h1>2 วัน: ปี้เผิงโกว + ต๋ากู่</h1>
             <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>
                     <tbody>
                         <tr class="header-row"><td>ผู้ใหญ่</td><td>26 ก.พ. - 30 พ.ค.</td><td>1700</td><td>1430</td><td>1300</td><td>1220</td><td>1200</td><td>1150</td><td>1120</td></tr>
                         <tr><td>เด็ก (0-6)</td><td></td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td></tr>
@@ -380,11 +316,7 @@
             <h1>4 วัน: จิ่วจ้ายโกว + หวงหลง + ต๋ากู่</h1>
             <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>
                     <tbody>
                         <tr class="header-row"><td>ผู้ใหญ่</td><td>26 ก.พ. - 28 มี.ค.</td><td>3240</td><td>2720</td><td>2420</td><td>2240</td><td>2220</td><td>2120</td><td>2040</td></tr>
                         <tr><td>เด็ก (0-6)</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
@@ -412,11 +344,7 @@
             <h1>5 วัน: จิ่วจ้าย+หวงหลง+ต๋ากู่+ปี้เผิงโกว</h1>
             <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th></tr></thead>
                     <tbody>
                         <tr class="header-row"><td>ผู้ใหญ่</td><td>26 ก.พ. - 28 มี.ค.</td><td>4060</td><td>3360</td><td>3010</td><td>2800</td><td>2750</td><td>2630</td><td>2600</td></tr>
                         <tr><td>เด็ก (0-6)</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
@@ -434,56 +362,25 @@
                     </tbody>
                 </table>
             </div>
-
-            <h3>รายละเอียดโปรแกรม</h3>
+            <h3>รายละเอียด</h3>
             <table class="detail-table">
-                <tr>
-                    <td class="detail-head">สังเขปการเดินทาง</td>
-                    <td class="detail-content">
-                        <b>Day 1:</b> เฉิงตู - หวงหลง - พักปากทางจิ่วจ้ายโกว<br>
-                        <b>Day 2:</b> เที่ยวจิ่วจ้ายโกว (เต็มวัน)<br>
-                        <b>Day 3:</b> ซงพาน - ทะเลสาบเตี๋ยซี - พักเฮยสุ่ย<br>
-                        <b>Day 4:</b> ธารน้ำแข็งต๋ากู่ - พักปี้เผิงโกว<br>
-                        <b>Day 5:</b> ปี้เผิงโกว - ตูเจียงเอี้ยน - เฉิงตู
-                    </td>
-                </tr>
-                 <tr>
-                    <td class="detail-head">ค่าบริการรวม</td>
-                    <td class="detail-content">
-                        <b>[ค่าตั๋ว]:</b> จิ่วจ้ายโกว+รถเหมา, หวงหลง+กระเช้าขึ้น+รถกอล์ฟ, ต๋ากู่+รถอุทยาน+กระเช้า, ปี้เผิงโกว+รถบัส<br>
-                        <b>[อื่นๆ]:</b> ที่พัก 4 คืน, อาหารเช้า, รถนำเที่ยวตลอดทริป, ประกันภัย
-                    </td>
-                </tr>
+                <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - หวงหลง<br>Day 2: จิ่วจ้ายโกว (เต็มวัน)<br>Day 3: ซงพาน - เฮยสุ่ย<br>Day 4: ต๋ากู่ - ปี้เผิงโกว<br>Day 5: ปี้เผิงโกว - เฉิงตู</td></tr>
+                 <tr><td class="detail-head">รวม</td><td class="detail-content">ที่พัก 4 คืน, ตั๋ว+รถ (จิ่วจ้าย/หวงหลง/ต๋ากู่/ปี้เผิง)</td></tr>
             </table>
         </div>
-
     </div>
 
     <script>
         function openTab(tabName) {
-            // Hide all containers
             var i;
             var x = document.getElementsByClassName("container");
-            for (i = 0; i < x.length; i++) {
-                x[i].classList.remove("active");
-            }
-            
-            // Remove active class from menu buttons
+            for (i = 0; i < x.length; i++) { x[i].classList.remove("active"); }
             var btns = document.getElementsByClassName("menu-btn");
-            for (i = 0; i < btns.length; i++) {
-                btns[i].classList.remove("active");
-            }
-
-            // Show the current tab and activate button
+            for (i = 0; i < btns.length; i++) { btns[i].classList.remove("active"); }
             document.getElementById(tabName).classList.add("active");
             event.currentTarget.classList.add("active");
-
-            // Auto scroll to content on mobile after click
-            if(window.innerWidth < 768) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-
 </body>
 </html>

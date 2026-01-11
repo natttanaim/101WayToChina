@@ -2,18 +2,18 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sichuan Travel Price List - Professional Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sichuan Travel Price List</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
     :root {
-        --primary-color: #2c3e50;
+        --primary-color: #1a252f;
         --accent-color: #3498db;
         --bg-light: #f4f6f9;
-        --table-head-bg: #4472C4;
+        --table-head-bg: #2980b9;
         --table-head-text: #ffffff;
         --table-row-even: #f8f9fa;
-        --table-row-hover: #e9ecef;
+        --text-color: #333;
     }
 
     body {
@@ -24,54 +24,47 @@
         display: flex;
         height: 100vh;
         overflow: hidden;
+        color: var(--text-color);
     }
 
-    /* Sidebar Navigation */
+    /* Sidebar Navigation (Desktop) */
     .sidebar {
         width: 260px;
         background-color: var(--primary-color);
         color: white;
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         flex-shrink: 0;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        z-index: 100;
     }
 
     .sidebar-header {
-        padding: 0 20px 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        margin-bottom: 10px;
+        padding: 20px;
+        background-color: rgba(0,0,0,0.2);
     }
 
-    .sidebar-header h2 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 600;
-    }
+    .sidebar-header h2 { margin: 0; font-size: 1.1rem; }
+    .sidebar-header p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.7; }
 
-    .sidebar-header p {
-        margin: 5px 0 0;
-        font-size: 0.8rem;
-        opacity: 0.7;
+    .menu-container {
+        padding: 10px 0;
+        overflow-y: auto;
     }
 
     .menu-btn {
         padding: 15px 20px;
         cursor: pointer;
-        transition: all 0.3s;
         border-left: 4px solid transparent;
+        transition: all 0.2s;
         font-size: 0.95rem;
     }
 
-    .menu-btn:hover {
-        background-color: rgba(255,255,255,0.05);
-    }
-
+    .menu-btn:hover { background-color: rgba(255,255,255,0.05); }
     .menu-btn.active {
         background-color: rgba(255,255,255,0.1);
         border-left-color: var(--accent-color);
-        font-weight: bold;
+        font-weight: 600;
     }
 
     /* Main Content */
@@ -79,130 +72,210 @@
         flex-grow: 1;
         padding: 30px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
     }
 
     .container {
-        max-width: 1200px;
+        max-width: 1100px;
         margin: 0 auto;
         background: white;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        display: none; /* Hide all by default */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        display: none;
         animation: fadeIn 0.3s ease-in-out;
+        margin-bottom: 50px;
     }
 
-    .container.active {
-        display: block;
-    }
+    .container.active { display: block; }
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; }
-    h3 { color: var(--primary-color); margin-top: 30px; }
+    h1 { 
+        color: var(--primary-color); 
+        border-bottom: 2px solid var(--accent-color); 
+        padding-bottom: 10px; 
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+    
+    h3 { color: var(--primary-color); margin-top: 25px; font-size: 1.1rem; }
 
     /* Tables */
-    .table-responsive {
-        overflow-x: auto;
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto; /* Enable horizontal scroll */
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        border-radius: 8px;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 20px;
-        font-size: 0.9rem;
+        min-width: 800px; /* Force table to have width so it scrolls */
     }
 
     th, td {
         border: 1px solid #ddd;
-        padding: 10px;
+        padding: 12px 8px;
         text-align: center;
+        font-size: 0.9rem;
     }
 
     th {
         background-color: var(--table-head-bg);
         color: var(--table-head-text);
         white-space: nowrap;
+        font-weight: 600;
     }
 
     tr:nth-child(even) { background-color: var(--table-row-even); }
-    tr:hover { background-color: var(--table-row-hover); }
+    
+    .price-group { background-color: #fff3cd; font-weight: bold; color: #856404; }
+    .header-row td { background-color: #d1ecf1; font-weight: bold; color: #0c5460; text-align: left; padding-left: 15px; }
 
-    .price-group { background-color: #FFF2CC; font-weight: bold; }
-    .header-row td { background-color: #D9E1F2; font-weight: bold; color: #000; }
-    
-    .detail-head { 
-        background-color: var(--table-head-bg); 
-        color: white; 
-        font-weight: bold; 
-        width: 20%; 
-        text-align: left; 
-        vertical-align: top;
-    }
-    
-    .detail-content { 
-        text-align: left; 
-        vertical-align: top; 
-        line-height: 1.6;
-    }
+    /* Detail Table */
+    .detail-table { min-width: 100%; } /* Detail table fits width */
+    .detail-table th, .detail-table td { text-align: left; vertical-align: top; }
+    .detail-head { width: 20%; background-color: #f1f1f1; color: #333; font-weight: bold; }
 
-    .highlight { color: #d9534f; font-weight: bold; }
-    
     .copy-hint {
         font-size: 0.8rem;
         color: #666;
-        margin-top: -15px;
+        background: #f8f9fa;
+        padding: 8px;
+        border-radius: 4px;
+        border-left: 3px solid #ffc107;
         margin-bottom: 15px;
-        font-style: italic;
     }
 
     /* Print Button */
-    .action-bar {
-        text-align: right;
-        margin-bottom: 15px;
-    }
+    .action-bar { text-align: right; margin-bottom: 15px; }
     .btn-print {
         background-color: var(--primary-color);
         color: white;
         border: none;
         padding: 8px 15px;
-        border-radius: 4px;
+        border-radius: 20px;
         cursor: pointer;
+        font-size: 0.9rem;
         font-family: 'Sarabun', sans-serif;
     }
-    .btn-print:hover { background-color: #1a252f; }
 
+    /* ================= MOBILE RESPONSIVE ================= */
+    @media screen and (max-width: 768px) {
+        body {
+            flex-direction: column; /* Stack vertically */
+            height: auto;
+            overflow-y: auto;
+        }
+
+        /* Mobile Header & Menu */
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-header h2 { font-size: 1rem; }
+        .sidebar-header p { display: none; } /* Hide subtitle on mobile */
+
+        .menu-container {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto; /* Scroll horizontally */
+            padding: 10px;
+            background: #2c3e50;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu-btn {
+            padding: 8px 15px;
+            margin-right: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            border-left: none;
+            color: #ddd;
+            font-size: 0.85rem;
+        }
+
+        .menu-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-left: none;
+        }
+
+        /* Mobile Content */
+        .main-content { padding: 15px 10px; }
+        .container { padding: 15px; margin-bottom: 20px; }
+
+        h1 { font-size: 1.2rem; }
+        
+        /* Mobile Tables */
+        th, td { padding: 8px 4px; font-size: 0.8rem; }
+        
+        /* Adjust Detail Table for Mobile */
+        .detail-table { display: block; }
+        .detail-table tbody, .detail-table tr, .detail-table td { display: block; width: 100%; box-sizing: border-box; }
+        .detail-head { 
+            width: 100%; 
+            background-color: #e9ecef; 
+            padding: 10px;
+            border-bottom: none;
+        }
+        .detail-content {
+            padding: 10px;
+            border-top: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-print { display: none; } /* Hide print button on mobile */
+        .copy-hint { display: none; } /* Hide copy hint on mobile */
+    }
 </style>
 </head>
 <body>
 
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2>China Travel Price</h2>
-            <p>Sichuan Route Update 2026</p>
+            <h2>China Price List 🇨🇳</h2>
+            <p>Updated: Feb 2026</p>
         </div>
-        <div class="menu-btn active" onclick="openTab('tab1')">🏷️ 3 วัน: สี่ดรุณี + ต๋ากู่</div>
-        <div class="menu-btn" onclick="openTab('tab2')">🏷️ 2 วัน: สี่ดรุณี + ปี้เผิงโกว</div>
-        <div class="menu-btn" onclick="openTab('tab3')">🏷️ 2 วัน: ปี้เผิงโกว + ต๋ากู่</div>
-        <div class="menu-btn" onclick="openTab('tab4')">🏷️ 4 วัน: จิ่วจ้ายโกว + ต๋ากู่</div>
-        <div class="menu-btn" onclick="openTab('tab5')">🏷️ 5 วัน: จิ่วจ้ายโกว + ปี้เผิงโกว</div>
+        <div class="menu-container">
+            <div class="menu-btn active" onclick="openTab('tab1')">3วัน สี่ดรุณี+ต๋ากู่</div>
+            <div class="menu-btn" onclick="openTab('tab2')">2วัน สี่ดรุณี+ปี้เผิงโกว</div>
+            <div class="menu-btn" onclick="openTab('tab3')">2วัน ปี้เผิงโกว+ต๋ากู่</div>
+            <div class="menu-btn" onclick="openTab('tab4')">4วัน จิ่วจ้าย+ต๋ากู่</div>
+            <div class="menu-btn" onclick="openTab('tab5')">5วัน Full Loop</div>
+        </div>
     </div>
 
     <div class="main-content">
         
         <div id="tab1" class="container active">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button></div>
-            <h1>ทริป 3 วัน: สี่ดรุณี + ธารน้ำแข็งต๋ากู่</h1>
-            <p class="copy-hint">💡 สามารถลากคลุมตารางแล้ว Ctrl+C ไปวางใน Excel ได้เลย</p>
+            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print PDF</button></div>
+            <h1>3 วัน: สี่ดรุณี + ต๋ากู่</h1>
+            <p class="copy-hint">💡 บนคอมฯ ลากคลุมตารางแล้ว Ctrl+C ไปวาง Excel ได้เลย</p>
             
-            <div class="table-responsive">
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ประเภท</th><th>วันที่เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
+                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -217,12 +290,16 @@
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>1 ก.ย. - 28 ก.ย.</td><td>2790</td><td>2350</td><td>2150</td><td>2020</td><td>1990</td><td>1910</td><td>1860</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td><td>320</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>8 ต.ค. - 10 พ.ย.</td><td>2970</td><td>2490</td><td>2300</td><td>2170</td><td>2120</td><td>2050</td><td>1990</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td><td>430</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>11 พ.ย. - 13 ก.พ.</td><td>2710</td><td>2330</td><td>2120</td><td>1990</td><td>1920</td><td>1890</td><td>1850</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td><td>300</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <h3>รายละเอียดโปรแกรม</h3>
-            <table>
+            <table class="detail-table">
                 <tr>
                     <td class="detail-head">สังเขปการเดินทาง</td>
                     <td class="detail-content">
@@ -239,14 +316,12 @@
         </div>
 
         <div id="tab2" class="container">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button></div>
-            <h1>ทริป 2 วัน: สี่ดรุณี + ปี้เผิงโกว</h1>
-            
-            <div class="table-responsive">
+            <h1>2 วัน: สี่ดรุณี + ปี้เผิงโกว</h1>
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ประเภท</th><th>วันที่เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
+                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -259,35 +334,25 @@
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>8 ต.ค. - 10 พ.ย.</td><td>1750</td><td>1450</td><td>1300</td><td>1210</td><td>1180</td><td>1130</td><td>1090</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>240</td><td>240</td><td>240</td><td>240</td><td>240</td><td>240</td><td>240</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>11 พ.ย. - 14 ก.พ.</td><td>1550</td><td>1280</td><td>1145</td><td>1065</td><td>1045</td><td>1000</td><td>970</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
                     </tbody>
                 </table>
             </div>
-
-            <h3>รายละเอียดโปรแกรม</h3>
-            <table>
-                <tr>
-                    <td class="detail-head">สังเขปการเดินทาง</td>
-                    <td class="detail-content">
-                        <b>Day 1:</b> เฉิงตู - อุทยานภูเขาสี่ดรุณี (ซวงเฉียวโกว) - พักปากทางเข้า<br>
-                        <b>Day 2:</b> เที่ยวชมปี้เผิงโกว - ผ่านตูเจียงเอี้ยน - กลับเฉิงตู
-                    </td>
-                </tr>
-                 <tr>
-                    <td class="detail-head">สิ่งที่รวม</td>
-                    <td class="detail-content">รถส่วนตัว, โรงแรม 1 คืน, ตั๋วเข้า+รถอุทยานสี่ดรุณี, ตั๋วเข้า+รถบัสปี้เผิงโกว</td>
-                </tr>
+            <h3>รายละเอียด</h3>
+            <table class="detail-table">
+                <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - สี่ดรุณี | Day 2: ปี้เผิงโกว - เฉิงตู</td></tr>
+                <tr><td class="detail-head">รวม</td><td class="detail-content">รถส่วนตัว, โรงแรม 1 คืน, ตั๋ว+รถสี่ดรุณี, ตั๋ว+รถบัสปี้เผิงโกว</td></tr>
             </table>
         </div>
 
         <div id="tab3" class="container">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button></div>
-            <h1>ทริป 2 วัน: ปี้เผิงโกว + ธารน้ำแข็งต๋ากู่</h1>
-            
-            <div class="table-responsive">
+            <h1>2 วัน: ปี้เผิงโกว + ต๋ากู่</h1>
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ประเภท</th><th>วันที่เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
+                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -300,30 +365,24 @@
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>10 ต.ค. - 10 พ.ย.</td><td>1850</td><td>1550</td><td>1400</td><td>1310</td><td>1280</td><td>1230</td><td>1190</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>11 พ.ย. - 14 ก.พ.</td><td>1730</td><td>1460</td><td>1325</td><td>1245</td><td>1225</td><td>1180</td><td>1150</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td><td>150</td></tr>
                     </tbody>
                 </table>
             </div>
-             <h3>รายละเอียดโปรแกรม</h3>
-            <table>
-                <tr>
-                    <td class="detail-head">สังเขปการเดินทาง</td>
-                    <td class="detail-content">
-                        <b>Day 1:</b> เฉิงตู - เที่ยวปี้เผิงโกว - พักเฮยสุ่ย<br>
-                        <b>Day 2:</b> เที่ยวธารน้ำแข็งต๋ากู่ - กลับเฉิงตู
-                    </td>
-                </tr>
+             <h3>รายละเอียด</h3>
+            <table class="detail-table">
+                <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - ปี้เผิงโกว - เฮยสุ่ย | Day 2: ธารน้ำแข็งต๋ากู่ - เฉิงตู</td></tr>
             </table>
         </div>
 
         <div id="tab4" class="container">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button></div>
-            <h1>ทริป 4 วัน: จิ่วจ้ายโกว + หวงหลง + ต๋ากู่</h1>
-            
-            <div class="table-responsive">
+            <h1>4 วัน: จิ่วจ้ายโกว + หวงหลง + ต๋ากู่</h1>
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ประเภท</th><th>วันที่เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
+                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -334,33 +393,28 @@
                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>350</td><td>350</td><td>350</td><td>350</td><td>350</td><td>350</td><td>350</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>29 มี.ค. - 28 พ.ค.</td><td>3450</td><td>2900</td><td>2620</td><td>2480</td><td>2400</td><td>2320</td><td>2240</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td><td>400</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>10 ต.ค. - 15 พ.ย.</td><td>3960</td><td>3390</td><td>3080</td><td>2940</td><td>2830</td><td>2730</td><td>2660</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>660</td><td>660</td><td>660</td><td>660</td><td>660</td><td>660</td><td>660</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>16 พ.ย. - 15 ธ.ค.</td><td>3470</td><td>2920</td><td>2640</td><td>2470</td><td>2420</td><td>2340</td><td>2260</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>450</td><td>450</td><td>450</td><td>450</td><td>450</td><td>450</td><td>450</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>16 ธ.ค. - 12 ก.พ.</td><td>3290</td><td>2740</td><td>2460</td><td>2290</td><td>2250</td><td>2150</td><td>2090</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>380</td><td>380</td><td>380</td><td>380</td><td>380</td><td>380</td><td>380</td></tr>
                     </tbody>
                 </table>
             </div>
-
-            <h3>รายละเอียดโปรแกรม</h3>
-            <table>
-                <tr>
-                    <td class="detail-head">สังเขปการเดินทาง</td>
-                    <td class="detail-content">
-                        <b>Day 1:</b> เฉิงตู - หวงหลง - พักปากทางจิ่วจ้ายโกว<br>
-                        <b>Day 2:</b> เที่ยวจิ่วจ้ายโกว (เต็มวัน)<br>
-                        <b>Day 3:</b> ซงพาน - ทะเลสาบเตี๋ยซี - พักเฮยสุ่ย<br>
-                        <b>Day 4:</b> ธารน้ำแข็งต๋ากู่ - เฉิงตู
-                    </td>
-                </tr>
+            <h3>รายละเอียด</h3>
+            <table class="detail-table">
+                <tr><td class="detail-head">สังเขป</td><td class="detail-content">Day 1: เฉิงตู - หวงหลง<br>Day 2: จิ่วจ้ายโกว (เต็มวัน)<br>Day 3: ซงพาน - เฮยสุ่ย<br>Day 4: ต๋ากู่ - เฉิงตู</td></tr>
             </table>
         </div>
 
         <div id="tab5" class="container">
-            <div class="action-bar"><button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button></div>
-            <h1>ทริป 5 วัน: จิ่วจ้ายโกว + หวงหลง + ต๋ากู่ + ปี้เผิงโกว (Full Loop)</h1>
-            
-            <div class="table-responsive">
+            <h1>5 วัน: จิ่วจ้าย+หวงหลง+ต๋ากู่+ปี้เผิงโกว</h1>
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ประเภท</th><th>วันที่เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
+                            <th>ประเภท</th><th>เดินทาง</th><th>2 ท่าน</th><th>3 ท่าน</th><th>4 ท่าน</th><th>5 ท่าน</th><th>6 ท่าน</th><th>7 ท่าน</th><th>8 ท่าน</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -373,12 +427,16 @@
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td></tr>
                          <tr class="header-row"><td>ผู้ใหญ่</td><td>8 ต.ค. - 15 พ.ย.</td><td>4960</td><td>4180</td><td>3790</td><td>3550</td><td>3480</td><td>3350</td><td>3260</td></tr>
                          <tr><td class="price-group">พักเดี่ยว</td><td></td><td>950</td><td>950</td><td>950</td><td>950</td><td>950</td><td>950</td><td>950</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>16 พ.ย. - 15 ธ.ค.</td><td>4240</td><td>3540</td><td>3190</td><td>2980</td><td>2930</td><td>2810</td><td>2730</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td><td>580</td></tr>
+                         <tr class="header-row"><td>ผู้ใหญ่</td><td>16 ธ.ค. - 11 ก.พ.</td><td>4060</td><td>3360</td><td>3010</td><td>2800</td><td>2750</td><td>2630</td><td>2600</td></tr>
+                         <tr><td class="price-group">พักเดี่ยว</td><td></td><td>520</td><td>520</td><td>520</td><td>520</td><td>520</td><td>520</td><td>520</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <h3>รายละเอียดโปรแกรม</h3>
-            <table>
+            <table class="detail-table">
                 <tr>
                     <td class="detail-head">สังเขปการเดินทาง</td>
                     <td class="detail-content">
@@ -419,6 +477,11 @@
             // Show the current tab and activate button
             document.getElementById(tabName).classList.add("active");
             event.currentTarget.classList.add("active");
+
+            // Auto scroll to content on mobile after click
+            if(window.innerWidth < 768) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     </script>
 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You | 101 Ways to China</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f0f4f8;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --line-color: #00B900; /* สีเขียวของ LINE */
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .icon-success {
+      font-size: 50px;
+      margin-bottom: 10px;
+      display: inline-block;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 10px;
+      color: #0284c7;
+    }
+
+    p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 0;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    /* สไตล์สำหรับรูปภาพโปรโมท */
+    .promo-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .contact-text {
+      font-size: 14px;
+      color: var(--text-main);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    /* ปุ่มแอดไลน์ */
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background-color: var(--line-color);
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn-line:hover {
+      background-color: #009900;
+      transform: translateY(-2px);
+    }
+
+    .btn-line img {
+      width: 24px;
+      margin-right: 8px;
+    }
+
+    /* อนิเมชันเด้งตอนโหลดหน้า */
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 30px 20px; }
+      h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="icon-success">✅</div>
+    <h1>ส่งข้อมูลเรียบร้อยแล้ว!</h1>
+    <p>ขอบคุณที่ไว้วางใจ 101 WAYS TO CHINA<br>ทีมงานจะรีบติดต่อกลับเพื่อเสนอโปรแกรมทัวร์ให้คุณเร็วๆ นี้ค่ะ</p>
+    
+    <img src="Private tour.jpg" alt="Private Tour China - Dagu Glacier, Jiuzhaigou" class="promo-image">
+  </div>
+
+</body>
+</html>
